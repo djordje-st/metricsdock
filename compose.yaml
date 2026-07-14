@@ -1,0 +1,72 @@
+name: metricsdock
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: metricsdock
+      POSTGRES_PASSWORD: metricsdock
+      POSTGRES_DB: metricsdock
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U metricsdock -d metricsdock']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    ports:
+      - '6379:6379'
+    volumes:
+      - valkey-data:/data
+    healthcheck:
+      test: ['CMD', 'valkey-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    profiles: ['app']
+    image: metricsdock:local
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    env_file: .env.local
+    environment:
+      DATABASE_URL: postgres://metricsdock:metricsdock@postgres:5432/metricsdock
+      HOST: 0.0.0.0
+      PORT: 3000
+      VALKEY_URL: redis://valkey:6379
+    command: pnpm start
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+    ports:
+      - '3000:3000'
+
+  worker:
+    profiles: ['app']
+    image: metricsdock:local
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    env_file: .env.local
+    environment:
+      DATABASE_URL: postgres://metricsdock:metricsdock@postgres:5432/metricsdock
+      VALKEY_URL: redis://valkey:6379
+    command: pnpm worker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  valkey-data:

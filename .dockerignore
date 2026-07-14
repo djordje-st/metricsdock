@@ -1,0 +1,11 @@
+.git
+.github
+.agents
+.claude
+.env
+.env.*
+.output
+.tanstack
+dist
+node_modules
+*.log

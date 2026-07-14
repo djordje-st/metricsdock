@@ -1,0 +1,11 @@
+overrides:
+  '@esbuild-kit/core-utils>esbuild': 0.25.12
+  'jsx-email>esbuild': 0.28.1
+  'jsx-email>react-router-dom': 7.15.1
+  'jsx-email>vite': 8.1.4
+
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  msgpackr-extract: true
+  unrs-resolver: true

@@ -1,0 +1,8 @@
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.agents/
+.output/
+Trace-*.json
+src/routeTree.gen.ts
+src/db/migrations/meta/
