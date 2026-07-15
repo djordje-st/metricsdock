@@ -27,6 +27,9 @@ The database and Valkey URLs must be reachable from inside the container. The im
 
 ## Railway
 
+Deploy the complete web, worker, PostgreSQL, and Valkey stack from the published
+[MetricsDock Railway template](https://railway.com/deploy/metricsdock), or configure the services manually below.
+
 Provision PostgreSQL and Valkey, then create two services from the same repository:
 
 | Service | Start command | Health check  |

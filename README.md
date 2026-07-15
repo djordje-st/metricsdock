@@ -4,6 +4,8 @@ MetricsDock is a standalone analytics application for Shopify app developers. It
 
 The project is under active development and is not affiliated with or endorsed by Shopify.
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/metricsdock?utm_medium=integration&utm_source=button&utm_campaign=metricsdock)
+
 ## What it includes
 
 - Organization-scoped workspaces, members, invitations, passkeys, and password authentication with Better Auth.
@@ -15,7 +17,7 @@ The project is under active development and is not affiliated with or endorsed b
 
 ## Requirements
 
-- Node.js 22.12 or newer.
+- Node.js 22.22.0.
 - pnpm 11 (Corepack uses the version pinned in `package.json`).
 - Docker with Compose for local PostgreSQL and Valkey, or equivalent services you manage yourself.
 - OpenSSL for generating local secrets.
