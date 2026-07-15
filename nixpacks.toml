@@ -1,5 +1,5 @@
 [phases.install]
-cmds = ["corepack enable", "pnpm install --frozen-lockfile"]
+cmds = ["npm install --global pnpm@11.3.0", "pnpm install --frozen-lockfile"]
 
 [phases.build]
 cmds = ["pnpm typecheck", "pnpm check", "pnpm lint", "pnpm check:generated", "pnpm build"]
