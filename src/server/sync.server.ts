@@ -38,11 +38,13 @@ import type {
   PartnerShop,
   PartnerTransactionNode,
 } from '#/server/shopify-partner.server.ts'
-import { enqueueSyncBatch } from '#/server/queue.server.ts'
+import {
+  enqueueSyncBatch,
+  SYNC_INTERVAL_MINUTES,
+} from '#/server/queue.server.ts'
 import type { SyncJobData } from '#/server/queue.server.ts'
 
 const DAY = 24 * 60 * 60 * 1000
-const SCHEDULED_SYNC_INTERVAL_MS = 60 * 60 * 1000
 const SYNC_LEASE_TTL_MS = 6 * 60 * 60 * 1000
 
 function toJson(value: unknown) {
@@ -1152,7 +1154,7 @@ export async function runSyncJob(data: SyncJobData, jobId?: string) {
 }
 
 export async function enqueueDueScheduledSyncs() {
-  const cutoff = new Date(Date.now() - SCHEDULED_SYNC_INTERVAL_MS)
+  const cutoff = new Date(Date.now() - SYNC_INTERVAL_MINUTES * 60 * 1000)
   const dueApps = await db
     .select({
       authOrganizationId: partnerConnections.authOrganizationId,

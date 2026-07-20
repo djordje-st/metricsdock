@@ -10,9 +10,16 @@ export type SyncJobData = {
   reason: 'manual' | 'scheduled' | 'connection'
 }
 
-export const SYNC_SCHEDULER_ID = 'sync-hourly'
-export const SYNC_SCHEDULER_CRON = '0 * * * *'
-const LEGACY_SYNC_SCHEDULER_IDS = ['sync-every-15-minutes'] as const
+export const SYNC_SCHEDULER_ID = 'sync-scheduler'
+export const SYNC_SCHEDULER_CRON =
+  process.env.SYNC_SCHEDULER_CRON?.trim() || '0 0 * * *'
+export const SYNC_INTERVAL_MINUTES = Number(
+  process.env.SYNC_INTERVAL_MINUTES ?? 1440,
+)
+
+if (!Number.isFinite(SYNC_INTERVAL_MINUTES) || SYNC_INTERVAL_MINUTES <= 0) {
+  throw new Error('SYNC_INTERVAL_MINUTES must be a positive number')
+}
 
 export type SyncJobName = 'sync' | 'sync-scheduler' | typeof SYNC_SCHEDULER_ID
 
@@ -175,10 +182,6 @@ export async function enqueueSyncBatch(items: Array<SyncJobData>) {
 
 export async function ensureSyncScheduler() {
   const syncQueue = getSyncQueue()
-
-  await Promise.all(
-    LEGACY_SYNC_SCHEDULER_IDS.map((id) => syncQueue.removeJobScheduler(id)),
-  )
 
   return syncQueue.upsertJobScheduler(
     SYNC_SCHEDULER_ID,

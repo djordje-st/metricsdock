@@ -4,22 +4,24 @@ Copy `.env.example` to `.env.local` for local development. `.env.local` and othe
 
 ## Application variables
 
-| Variable               | Required               | Description                                                                                          |
-| ---------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------- |
-| `DATABASE_URL`         | Yes                    | PostgreSQL connection string.                                                                        |
-| `PG_POOL_MAX`          | No                     | Maximum database connections per process. Defaults to `5`; budget for both web and worker processes. |
-| `BETTER_AUTH_URL`      | Yes                    | Public application origin, without a trailing path. Use `http://localhost:3000` locally.             |
-| `BETTER_AUTH_SECRET`   | Yes                    | Better Auth signing secret with at least 32 characters.                                              |
-| `ENCRYPTION_KEY`       | Yes                    | Base64-encoded 32-byte key used to encrypt Partner and Google tokens.                                |
-| `VALKEY_URL`           | Production and workers | Valkey connection string for BullMQ and the production query cache.                                  |
-| `CRON_SECRET`          | Yes                    | Secret accepted by the fallback `POST /api/sync` cron endpoint.                                      |
-| `GOOGLE_CLIENT_ID`     | Yes                    | Google OAuth client ID for Google sign-in and Analytics authorization.                               |
-| `GOOGLE_CLIENT_SECRET` | Yes                    | Google OAuth client secret.                                                                          |
-| `PLUNK_API_KEY`        | Email flows            | Plunk transactional API key.                                                                         |
-| `PLUNK_FROM_EMAIL`     | Email flows            | Verified sender email address.                                                                       |
-| `PLUNK_FROM_NAME`      | No                     | Sender display name. Defaults to `MetricsDock`.                                                      |
-| `WORKBENCH_USERNAME`   | Production             | Basic Auth username for `/jobs`.                                                                     |
-| `WORKBENCH_PASSWORD`   | Production             | Basic Auth password for `/jobs`.                                                                     |
+| Variable                | Required               | Description                                                                                          |
+| ----------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`          | Yes                    | PostgreSQL connection string.                                                                        |
+| `PG_POOL_MAX`           | No                     | Maximum database connections per process. Defaults to `5`; budget for both web and worker processes. |
+| `BETTER_AUTH_URL`       | Yes                    | Public application origin, without a trailing path. Use `http://localhost:3000` locally.             |
+| `BETTER_AUTH_SECRET`    | Yes                    | Better Auth signing secret with at least 32 characters.                                              |
+| `ENCRYPTION_KEY`        | Yes                    | Base64-encoded 32-byte key used to encrypt Partner and Google tokens.                                |
+| `VALKEY_URL`            | Production and workers | Valkey connection string for BullMQ and the production query cache.                                  |
+| `SYNC_SCHEDULER_CRON`   | No                     | Cron pattern for checking due syncs. Defaults to `0 0 * * *` (daily at midnight UTC).                |
+| `SYNC_INTERVAL_MINUTES` | No                     | Minimum minutes between scheduled app syncs. Defaults to `1440` (24 hours).                          |
+| `CRON_SECRET`           | Yes                    | Secret accepted by the fallback `POST /api/sync` cron endpoint.                                      |
+| `GOOGLE_CLIENT_ID`      | Yes                    | Google OAuth client ID for Google sign-in and Analytics authorization.                               |
+| `GOOGLE_CLIENT_SECRET`  | Yes                    | Google OAuth client secret.                                                                          |
+| `PLUNK_API_KEY`         | Email flows            | Plunk transactional API key.                                                                         |
+| `PLUNK_FROM_EMAIL`      | Email flows            | Verified sender email address.                                                                       |
+| `PLUNK_FROM_NAME`       | No                     | Sender display name. Defaults to `MetricsDock`.                                                      |
+| `WORKBENCH_USERNAME`    | Production             | Basic Auth username for `/jobs`.                                                                     |
+| `WORKBENCH_PASSWORD`    | Production             | Basic Auth password for `/jobs`.                                                                     |
 
 Generate local secrets with:
 

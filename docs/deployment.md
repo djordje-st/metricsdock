@@ -41,7 +41,7 @@ Provision PostgreSQL and Valkey, then create two services from the same reposito
 
 Run `pnpm db:migrate` as a web pre-deploy command or a dedicated one-off migration job. Do not configure it on the worker as well.
 
-The worker installs the BullMQ scheduler on startup. `POST /api/sync` with `x-cron-secret` remains available as a fallback external trigger:
+The worker installs the BullMQ scheduler on startup. Configure its scan cron with `SYNC_SCHEDULER_CRON` and the minimum age of apps eligible for scheduled sync with `SYNC_INTERVAL_MINUTES`. `POST /api/sync` with `x-cron-secret` remains available as a fallback external trigger:
 
 ```bash
 curl -X POST "https://your-domain.example/api/sync" \

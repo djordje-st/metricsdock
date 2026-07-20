@@ -2,6 +2,7 @@ import { Worker } from 'bullmq'
 import {
   ensureSyncScheduler,
   getQueueConnection,
+  SYNC_INTERVAL_MINUTES,
   SYNC_SCHEDULER_CRON,
 } from '#/server/queue.server.ts'
 import type { SyncJobData, SyncJobName } from '#/server/queue.server.ts'
@@ -86,6 +87,7 @@ emitWideLogEvent(['worker'], {
   queue_prefix: 'metricsdock',
   worker_concurrency: 2,
   scheduler_cron: SYNC_SCHEDULER_CRON,
+  sync_interval_minutes: SYNC_INTERVAL_MINUTES,
 })
 
 async function shutdown() {
